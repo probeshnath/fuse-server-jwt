@@ -32,13 +32,31 @@ async function run() {
 
     const userDB = client.db("userDB").collection("users");
 
-    // register users
-    app.post("/users", async (req,res)=>{
-        const user = req.body;
-        // console.log(user)
-        const result = await userDB.insertOne(user)
-        res.send(result)
+    // register users ---->>
+
+    // app.post("/users", async (req,res)=>{
+    //     const user = req.body;
+    //     // console.log(user)
+    //     const result = await userDB.insertOne(user)
+    //     res.send(result)
+    // })
+    const productsDB = client.db("userDB").collection("products");
+      
+    // add products
+    app.post("/dashboard/products", async(req,res)=>{
+      const product = req.body;
+      const result = await productsDB.insertOne(product);
+      // console.log(product)
+      res.send(result)
     })
+
+    // get all products
+    app.get("/products",async(req,res)=>{
+      const cursor = await productsDB.find();
+      const result = await cursor.toArray();
+      res.send(result)
+    })
+
 
 
 
